@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+require 'collectionspace/client'
+require 'collectionspace/refcache/refcache'
+require 'collectionspace/refcache/version'
+
+module CollectionSpace
+  class Error < StandardError; end
+end

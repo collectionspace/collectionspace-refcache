@@ -1,0 +1,15 @@
+AllCops:
+  Exclude:
+    - node_modules/**/*
+    - db/**
+    - db/migrate/**
+    - bin/**
+    - vendor/**/*
+
+Metrics/BlockLength:
+  ExcludedMethods:
+    - 'context'
+    - 'describe'
+
+Style/Documentation:
+  Enabled: false

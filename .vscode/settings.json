@@ -1,0 +1,4 @@
+{
+    "editor.tabSize": 2,
+    "ruby.rubocop.configFilePath": ".rubocop.yml"
+}
