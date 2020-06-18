@@ -18,6 +18,7 @@ module CollectionSpace
       @error_if_not_found = config.fetch(:error_if_not_found, false)
       @lifetime = config.fetch(:lifetime, 5 * 60)
       @search_enabled = config.fetch(:search_enabled, false)
+      @search_identifiers = config.fetch(:search_identifiers, false)
     end
 
     # cache.clean # delete expired keys (run using cron etc.)
@@ -36,7 +37,6 @@ module CollectionSpace
     end
 
     # cache.get('placeauthorities', 'place', 'The Moon')
-    # cache.get('procedures', 'collectionobjects', '123')
     # cache.get('vocabularies', 'languages', 'English')
     def get(type, subtype, value)
       key = generate_key([type, subtype, value])
