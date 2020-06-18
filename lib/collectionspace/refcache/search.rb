@@ -4,6 +4,8 @@ module CollectionSpace
   class RefCache
     # CollectionSpace::RefCache::Search
     module Search
+      TERM_SUFFIX = 'TermGroupList/0/termDisplayName'
+
       def search(type, subtype, value)
         path = build_path(type, subtype)
         field = @search_identifiers ? 'shortIdentfier' : build_term(type)
@@ -34,7 +36,7 @@ module CollectionSpace
       end
 
       def build_term(type)
-        "#{schema(type)[:term]}TermGroupList/0/termDisplayName"
+        schema(type)[:term]
       end
 
       def item(response)
@@ -43,8 +45,9 @@ module CollectionSpace
 
       def schema(type)
         {
-          'personauthorities' => { ns: 'persons', term: 'person' },
-          'placeauthorities' => { ns: 'places', term: 'place' }
+          'personauthorities' => { ns: 'persons', term: "person#{TERM_SUFFIX}" },
+          'placeauthorities' => { ns: 'places', term: "place#{TERM_SUFFIX}" },
+          'vocabularies' => { ns: 'vocabularyitems', term: 'displayName' }
         }.fetch(type)
       end
     end

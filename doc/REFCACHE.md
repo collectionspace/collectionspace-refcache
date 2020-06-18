@@ -20,6 +20,10 @@ cache_config = {
 cache = CollectionSpace::RefCache.new(config: cache_config, client: client)
 cache.get('placeauthorities', 'place', 'Death Valley') # $refname or error / nil if not found
 cache.exists?('placeauthorities', 'place', 'Death Valley') # check for key
+
+# example for vocabs
+cache.get('vocabularies', 'languages', 'English') # $refname or error / nil if not found
+cache.exists?('vocabularies', 'languages', 'English') # check for key
 ```
 
 The cache can be pre-populated:
