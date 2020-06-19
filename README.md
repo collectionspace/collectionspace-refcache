@@ -7,7 +7,7 @@ A caching system for CollectionSpace refnames.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'collectionspace-refcache'
+gem 'collectionspace-refcache', tag: 'v0.1.0', git: 'https://github.com/collectionspace/collectionspace-refcache.git'
 ```
 
 And then execute:
@@ -24,7 +24,7 @@ gem install collectionspace-refcache
 
 ## Usage
 
-TODO: Write usage instructions here
+Follow the [examples](doc/REFCACHE.md)!
 
 ## Development
 
