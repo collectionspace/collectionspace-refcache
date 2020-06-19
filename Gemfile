@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 gemspec
 
-gem 'collectionspace-client', '~> 0.3.0'
+gem 'collectionspace-client', tag: 'v0.4.0', git: 'https://github.com/collectionspace/collectionspace-client.git'
 gem 'rake', '~> 12.0'
 gem 'rspec', '~> 3.0'
 gem 'rubocop', '~> 0.85.1'
