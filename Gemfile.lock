@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/collectionspace/collectionspace-client.git
-  revision: 3a3bdd270b87ca7896ae84f41c14dd3d461bd2c3
-  tag: v0.4.0
+  revision: 834a48120e75dcc3e14434cd6d771587095a6876
+  tag: v0.5.0
   specs:
-    collectionspace-client (0.4.0)
+    collectionspace-client (0.5.0)
       httparty
       json
       nokogiri
@@ -11,7 +11,7 @@ GIT
 PATH
   remote: .
   specs:
-    collectionspace-refcache (0.1.0)
+    collectionspace-refcache (0.2.0)
 
 GEM
   remote: https://rubygems.org/

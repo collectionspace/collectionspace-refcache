@@ -4,22 +4,16 @@ A caching system for CollectionSpace refnames.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your application's Gemfile (replace `$VERSION` with an available tag):
 
 ```ruby
-gem 'collectionspace-refcache', tag: 'v0.1.0', git: 'https://github.com/collectionspace/collectionspace-refcache.git'
+gem 'collectionspace-refcache', tag: $VERSION, git: 'https://github.com/collectionspace/collectionspace-refcache.git'
 ```
 
 And then execute:
 
 ```ruby
 bundle install
-```
-
-Or install it yourself as:
-
-```ruby
-gem install collectionspace-refcache
 ```
 
 ## Usage

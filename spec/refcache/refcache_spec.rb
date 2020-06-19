@@ -73,8 +73,10 @@ RSpec.describe CollectionSpace::RefCache do
       let(:insert_parts) { ['placeauthorities', 'place', 'The Moon', '$refname'] }
 
       it 'returns the refname' do
+        allow(cache).to receive(:search).and_return(nil)
         expect(cache.put(*insert_parts)).to include(value: '$refname')
         expect(cache.get(*lookup_parts)).to eq(insert_parts.last)
+        expect(cache).not_to have_received(:search)
       end
     end
   end
