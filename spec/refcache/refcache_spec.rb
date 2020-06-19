@@ -38,6 +38,12 @@ RSpec.describe CollectionSpace::RefCache do
             config: { domain: domain, error_if_not_found: true, search_enabled: true }, client: client
           )
         end
+        let(:cache_no_delay) do
+          CollectionSpace::RefCache.new(
+            config: { domain: domain, search_delay: 0, search_enabled: true }, client: client
+          )
+        end
+
         it 'will search for a value when the key is not found and fail with nil' do
           allow(cache).to receive(:search).and_return(nil)
           expect(cache.get(*parts)).to be_nil
@@ -48,6 +54,24 @@ RSpec.describe CollectionSpace::RefCache do
           allow(cache_raise_error).to receive(:search).and_return(nil)
           expect { cache_raise_error.get(*parts) }.to raise_error(CollectionSpace::RefCache::NotFoundError)
           expect(cache_raise_error).to have_received(:search).with(*parts)
+        end
+
+        it 'can delay search when a key is not found' do
+          allow(cache).to receive(:search).and_return(nil)
+          lock = "#{cache.generate_key(parts)}_lock"
+          cache.get(*parts)
+          expect(cache.delay?(lock)).to be true
+          cache.get(*parts)
+          expect(cache).to have_received(:search).with(*parts).once
+        end
+
+        it 'will not delay search when configured' do
+          allow(cache_no_delay).to receive(:search).and_return(nil)
+          lock = "#{cache.generate_key(parts)}_lock"
+          cache_no_delay.get(*parts)
+          expect(cache_no_delay.delay?(lock)).to be false
+          cache_no_delay.get(*parts)
+          expect(cache_no_delay).to have_received(:search).with(*parts).twice
         end
 
         it 'will search for a value when the key is not found and succeed' do
