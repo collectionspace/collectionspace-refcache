@@ -1,13 +1,17 @@
 # frozen_string_literal: true
 
+require 'cgi'
+
 module CollectionSpace
   class RefCache
     # CollectionSpace::RefCache::Search
     module Search
       def search(type, subtype, value)
-        service = CollectionSpace::Service.get(type: type, subtype: subtype)
+        service = @client.service(type: type, subtype: subtype)
         field = @search_identifiers ? service[:identifier] : service[:term]
-        response = @client.find(type: type, subtype: subtype, value: value, field: field)
+        response = @client.find(type: type, subtype: subtype, value: CGI.escape(value), field: field)
+        return ClientError, response.parsed unless response.result.success?
+
         total = response.parsed['abstract_common_list']['totalItems'].to_i
         return nil if total.zero?
 
