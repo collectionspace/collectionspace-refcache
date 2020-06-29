@@ -25,6 +25,9 @@ cache.exists?('placeauthorities', 'place', 'Death Valley') # check for key
 # example for vocabs
 cache.get('vocabularies', 'languages', 'English') # $refname or error / nil if not found
 cache.exists?('vocabularies', 'languages', 'English') # check for key
+
+# search can be overriden on a per get basis
+cache.get('vocabularies', 'languages', 'English', search: false)
 ```
 
 The cache can be pre-populated:

@@ -45,11 +45,12 @@ module CollectionSpace
 
     # cache.get('placeauthorities', 'place', 'The Moon')
     # cache.get('vocabularies', 'languages', 'English')
-    def get(type, subtype, value)
+    def get(type, subtype, value, opts = {})
       key = generate_key([type, subtype, value])
       lock = "#{key}_lock"
+      do_search = opts.fetch(:search, @search_enabled)
       refname = @cache.get(key, lifetime: @lifetime) do
-        return nil unless @search_enabled
+        return nil unless do_search
         return nil if delay?(lock)
 
         search(type, subtype, value)
