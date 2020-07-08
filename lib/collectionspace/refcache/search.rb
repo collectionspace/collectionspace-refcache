@@ -9,7 +9,9 @@ module CollectionSpace
       def search(type, subtype, value)
         service = @client.service(type: type, subtype: subtype)
         field = @search_identifiers ? service[:identifier] : service[:term]
-        response = @client.find(type: type, subtype: subtype, value: CGI.escape(value), field: field)
+        response = @client.find(
+          type: type, subtype: subtype, value: value, field: field
+        )
         return ClientError, response.parsed unless response.result.success?
 
         total = response.parsed['abstract_common_list']['totalItems'].to_i
