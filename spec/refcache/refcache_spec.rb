@@ -79,6 +79,12 @@ RSpec.describe CollectionSpace::RefCache do
           expect(cache.get(*parts)).to eq('$refname')
           expect(cache).to have_received(:search).with(*parts)
         end
+
+        it 'will not search for a value when config is overriden to disable search' do
+          allow(cache).to receive(:search).and_return(nil)
+          expect(cache.get(*parts, search: false)).to be_nil
+          expect(cache).not_to have_received(:search).with(*parts)
+        end
       end
 
       context 'without search enabled' do
@@ -87,6 +93,12 @@ RSpec.describe CollectionSpace::RefCache do
           allow(cache).to receive(:search).and_return(nil)
           expect(cache.get(*parts)).to be_nil
           expect(cache).not_to have_received(:search).with(*parts)
+        end
+
+        it 'will search for a value when config is overriden to enable search' do
+          allow(cache).to receive(:search).and_return('$refname')
+          expect(cache.get(*parts, search: true)).to eq('$refname')
+          expect(cache).to have_received(:search).with(*parts)
         end
       end
     end
