@@ -45,7 +45,7 @@ module CollectionSpace
     end
 
     def generate_key(parts = [])
-      Digest::SHA2.hexdigest(parts.dup.append(domain).join)
+      Digest::SHA2.hexdigest(parts.dup.append(domain).join).prepend('refcache::')
     end
 
     # cache.get('placeauthorities', 'place', 'The Moon')
