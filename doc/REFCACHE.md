@@ -11,6 +11,7 @@ client = CollectionSpace::Client.new(
   )
 )
 cache_config = {
+  # redis: 'redis://localhost:6379/1', # optional, if omitted use in memory cache (Zache)
   domain: 'core.collectionspace.org',
   error_if_not_found: false, # raise error if key cannot be retrieved (default false)
   lifetime: 5 * 60, # cache expiry in seconds (default is 5 minutes)

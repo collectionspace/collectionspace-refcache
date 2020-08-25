@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'digest'
+require 'redis'
 require 'zache'
 require_relative 'search'
 
@@ -12,7 +13,7 @@ module CollectionSpace
 
     attr_reader :config, :domain
     def initialize(config: {}, client:)
-      @cache = Zache.new
+      @cache = backend(config.fetch(:redis, nil))
       @client = check_client(client)
       @domain = config.fetch(:domain)
       @error_if_not_found = config.fetch(:error_if_not_found, false)
@@ -25,6 +26,10 @@ module CollectionSpace
     # cache.clean # delete expired keys (run using cron etc.)
     def clean
       @cache.clean
+    end
+
+    def connected?
+      @cache.connected?
     end
 
     def delay?(key)
@@ -49,16 +54,16 @@ module CollectionSpace
       key = generate_key([type, subtype, value])
       lock = "#{key}_lock"
       do_search = opts.fetch(:search, @search_enabled)
-      refname = @cache.get(key, lifetime: @lifetime) do
-        return nil unless do_search
-        return nil if delay?(lock)
 
-        search(type, subtype, value)
+      refname = @cache.get(key)
+      unless refname
+        refname = search(type, subtype, value) if do_search && !delay?(lock)
+        put(type, subtype, value, refname) if refname
       end
 
       unless refname
-        @cache.remove(key)
-        @cache.put(lock, Time.now, lifetime: @search_delay) unless delay?(lock)
+        @cache.remove(key) # ensure it's cleared out
+        @cache.put(lock, Time.now, lifetime: @search_delay) if do_search && !delay?(lock)
         raise NotFoundError if @error_if_not_found
       end
 
@@ -72,6 +77,10 @@ module CollectionSpace
     end
 
     private
+
+    def backend(connection)
+      connection ? Backend::Redis.new(connection) : Backend::Zache.new
+    end
 
     def check_client(client)
       raise ClientError unless client.is_a? CollectionSpace::Client
