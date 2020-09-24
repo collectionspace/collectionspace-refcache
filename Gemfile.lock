@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/collectionspace/collectionspace-client.git
-  revision: 0406ecd9ccf37054adff22c4a93703876f0278da
-  tag: v0.6.2
+  revision: 4759c1a467bd9004b6553f8e0b9462407c59df53
+  tag: v0.7.0
   specs:
-    collectionspace-client (0.6.2)
+    collectionspace-client (0.7.0)
       httparty
       json
       nokogiri
@@ -11,8 +11,8 @@ GIT
 PATH
   remote: .
   specs:
-    collectionspace-refcache (0.7.1)
-      collectionspace-client (= 0.6.2)
+    collectionspace-refcache (0.7.2)
+      collectionspace-client (= 0.7.0)
       redis (~> 4.2.1)
       zache (~> 0.12.0)
 
@@ -37,7 +37,7 @@ GEM
       ast (~> 2.4.0)
     rainbow (3.0.0)
     rake (12.3.3)
-    redis (4.2.1)
+    redis (4.2.2)
     regexp_parser (1.7.1)
     rexml (3.1.9)
     rspec (3.9.0)
