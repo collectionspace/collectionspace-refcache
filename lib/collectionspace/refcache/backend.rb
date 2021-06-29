@@ -5,7 +5,8 @@ module CollectionSpace
     module Backend
       class Redis
         def initialize(url)
-          @c = ::Redis.new(url: url)
+          # https://devcenter.heroku.com/articles/heroku-redis#connecting-in-rails
+          @c = ::Redis.new(url: url, ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE })
         end
 
         def clean
