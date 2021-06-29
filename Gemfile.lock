@@ -11,7 +11,7 @@ GIT
 PATH
   remote: .
   specs:
-    collectionspace-refcache (0.7.2)
+    collectionspace-refcache (0.7.4)
       collectionspace-client (= 0.8.0)
       redis (~> 4.2.1)
       zache (~> 0.12.0)
