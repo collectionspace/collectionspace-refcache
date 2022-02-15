@@ -39,6 +39,11 @@ RSpec.describe CollectionSpace::RefCache do
         expect(cache.size).to eq(0)
       end
     end
+
+    describe '#exists?' do
+      populate_cache(cache)
+      cache.exists?('a', 'b', 'c')
+    end
   end
 
   context 'when redis backend' do
