@@ -10,7 +10,7 @@ module CollectionSpace
         end
 
         def clean
-          @c.flushall
+          @c.flushdb
         end
 
         def connected?
@@ -31,6 +31,10 @@ module CollectionSpace
 
         def remove(key)
           @c.del(key)
+        end
+
+        def size
+          @c.dbsize
         end
       end
 
@@ -61,6 +65,10 @@ module CollectionSpace
 
         def remove(key)
           @c.remove(key)
+        end
+
+        def size
+          @c.size
         end
       end
     end

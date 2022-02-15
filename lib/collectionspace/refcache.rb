@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'collectionspace/client'
 require 'collectionspace/refcache/backend'
 require 'collectionspace/refcache/refcache'
 require 'collectionspace/refcache/version'
