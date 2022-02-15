@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 require 'digest'
-require 'redis'
-require 'zache'
 
 module CollectionSpace
   class RefCache
