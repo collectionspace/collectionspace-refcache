@@ -27,6 +27,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'redis', '~> 4.2.1'
   spec.add_dependency 'zache', '~> 0.12.0'
 
+  spec.add_development_dependency 'mock_redis', '~> 0.29'
+  spec.add_development_dependency 'pry'
   spec.add_development_dependency 'rake', '~> 12.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'rubocop', '~> 0.85.1'
