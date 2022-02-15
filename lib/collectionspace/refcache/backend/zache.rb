@@ -11,7 +11,7 @@ module CollectionSpace
         end
 
         def clean
-          @c.clean
+          @c.remove_by{ |key| @c.expired?(key) }
         end
 
         def connected?

@@ -29,16 +29,16 @@ RSpec.describe CollectionSpace::RefCache do
       end
     end
 
-    # describe '#clean' do
-    #   let(:add_config){ {lifetime: 0.2} }
+    describe '#clean' do
+      let(:add_config){ {lifetime: 0.2} }
       
-    #   it 'removes expired keys from cache' do
-    #     populate_cache(cache)
-    #     sleep(1)
-    #     cache.clean
-    #     expect(cache.size).to eq(0)
-    #   end
-    # end
+      it 'removes expired keys from cache' do
+        populate_cache(cache)
+        sleep(1)
+        cache.clean
+        expect(cache.size).to eq(0)
+      end
+    end
   end
 
   context 'when redis backend' do
