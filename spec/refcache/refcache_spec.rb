@@ -41,9 +41,30 @@ RSpec.describe CollectionSpace::RefCache do
     end
 
     describe '#exists?' do
-      populate_cache(cache)
-      cache.exists?('a', 'b', 'c')
+      it 'returns as expected', :aggregate_failures do
+        expect(cache.exists?('a', 'b', 'c')).to be false
+        populate_cache(cache)
+        expect(cache.exists?('a', 'b', 'c')).to be true
+      end
     end
+
+    describe '#get' do
+      context 'when key is not cached' do
+      context 'with @error_if_not_found = false' do
+        it 'returns nil' do
+          expect(cache.get('a', 'b', 'c')).to be nil
+        end
+      end
+
+      context 'with @error_if_not_found = true' do
+        let(:add_config){ { error_if_not_found: true } }
+
+        it 'raises NotFoundError' do
+          expect{ cache.get('a', 'b', 'c') }.to raise_error(CollectionSpace::RefCache::NotFoundError)
+        end
+      end
+      end
+      end
   end
 
   context 'when redis backend' do

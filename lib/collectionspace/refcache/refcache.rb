@@ -37,7 +37,10 @@ module CollectionSpace
     # cache.get('vocabularies', 'languages', 'English')
     def get(type, subtype, value)
       key = generate_key([type, subtype, value])
-      @cache.get(key)
+      cached_value = @cache.get(key)
+      raise NotFoundError if @error_if_not_found && !cached_value
+
+      cached_value
     end
 
     # cache.put('placeauthorities', 'place', 'The Moon', $refname)
