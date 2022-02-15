@@ -2,8 +2,12 @@
 
 require 'bundler/setup'
 require 'collectionspace/refcache'
+require 'pry'
+require_relative './helpers'
 
 RSpec.configure do |config|
+  config.include Helpers
+  
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = '.rspec_status'
 
