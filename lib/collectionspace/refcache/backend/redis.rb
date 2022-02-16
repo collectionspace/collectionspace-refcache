@@ -24,6 +24,10 @@ module CollectionSpace
           @c.exists?(key)
         end
 
+        def flush
+          @c.flushdb
+        end
+        
         def get(key)
           @c.get(key)
         end

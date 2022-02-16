@@ -55,6 +55,14 @@ RSpec.describe CollectionSpace::RefCache do
       end
     end
 
+    describe '#flush' do
+      it 'clears all keys as expected' do
+        populate_cache(cache)
+        cache.flush
+        expect(cache.size).to eq(0)
+      end
+    end
+
     describe '#get' do
       context 'when key is cached' do
         it 'returns cached value' do
@@ -136,6 +144,14 @@ RSpec.describe CollectionSpace::RefCache do
         expect(cache.exists?('a', 'b', 'c')).to be false
         populate_cache(cache)
         expect(cache.exists?('a', 'b', 'c')).to be true
+      end
+    end
+
+    describe '#flush' do
+      it 'clears all keys as expected' do
+        populate_cache(cache)
+        cache.flush
+        expect(cache.size).to eq(0)
       end
     end
 

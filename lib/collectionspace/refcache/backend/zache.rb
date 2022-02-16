@@ -22,6 +22,10 @@ module CollectionSpace
           @c.exists?(key)
         end
 
+        def flush
+          @c.remove_all
+        end
+        
         def get(key)
           @c.get(key) rescue nil
         end

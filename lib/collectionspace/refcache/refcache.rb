@@ -29,6 +29,11 @@ module CollectionSpace
       @cache.exists?(key)
     end
 
+    # delete all keys from the cache
+    def flush
+      @cache.flush
+    end
+    
     def generate_key(parts = [])
       Digest::SHA2.hexdigest(parts.dup.append(domain).join).prepend('refcache::')
     end
