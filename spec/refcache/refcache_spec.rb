@@ -49,22 +49,52 @@ RSpec.describe CollectionSpace::RefCache do
     end
 
     describe '#get' do
+      context 'when key is cached' do
+        it 'returns cached value' do
+          populate_cache(cache)
+          expect(cache.get('a', 'b', 'c')).to eq('d')
+        end
+      end
+      
       context 'when key is not cached' do
-      context 'with @error_if_not_found = false' do
-        it 'returns nil' do
-          expect(cache.get('a', 'b', 'c')).to be nil
+        context 'with @error_if_not_found = false' do
+          it 'returns nil' do
+            expect(cache.get('a', 'b', 'c')).to be nil
+          end
+        end
+
+        context 'with @error_if_not_found = true' do
+          let(:add_config){ { error_if_not_found: true } }
+
+          it 'raises NotFoundError' do
+            expect{ cache.get('a', 'b', 'c') }.to raise_error(CollectionSpace::RefCache::NotFoundError)
+          end
         end
       end
+    end
 
-      context 'with @error_if_not_found = true' do
-        let(:add_config){ { error_if_not_found: true } }
+    describe '#put' do
+      it 'adds keys as expected', :aggregate_failures do
+        expect(cache.size).to eq(0)
+        cache.put('w', 'x', 'y', 'z')
+        expect(cache.size).to eq(1)
+        expect(cache.exists?('w', 'x', 'y')).to be true
+        cache.put('w', 'x', 'y', 'z')
+        expect(cache.size).to eq(1)
+      end
+    end
 
-        it 'raises NotFoundError' do
-          expect{ cache.get('a', 'b', 'c') }.to raise_error(CollectionSpace::RefCache::NotFoundError)
-        end
+    describe '#remove' do
+      it 'removes given key as expected', :aggregate_failures do
+        populate_cache(cache)
+        expect(cache.size).to eq(3)
+        cache.remove('a', 'b', 'c')
+        expect(cache.size).to eq(2)
+        expect(cache.exists?('a', 'b', 'c')).to be false
+        cache.remove('a', 'b', 'c')
+        expect(cache.size).to eq(2)
       end
-      end
-      end
+    end
   end
 
   context 'when redis backend' do

@@ -49,6 +49,11 @@ module CollectionSpace
       @cache.put(key, refname, lifetime: @lifetime)
     end
 
+    def remove(type, subtype, value)
+      key = generate_key([type, subtype, value])
+      @cache.remove(key)
+    end
+
     def size
       @cache.size
     end
