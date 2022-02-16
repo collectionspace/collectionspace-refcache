@@ -25,9 +25,11 @@ module CollectionSpace
         def flush
           @c.remove_all
         end
-        
+
         def get(key)
-          @c.get(key) rescue nil
+          @c.get(key)
+        rescue StandardError
+          nil
         end
 
         def put(key, value, lifetime: nil)

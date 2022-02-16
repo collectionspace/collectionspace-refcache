@@ -7,6 +7,7 @@ module CollectionSpace
     class NotFoundError < StandardError; end
 
     attr_reader :config, :domain
+
     def initialize(config: {})
       @cache = backend(config.fetch(:redis, nil))
       @domain = config.fetch(:domain)
@@ -33,7 +34,7 @@ module CollectionSpace
     def flush
       @cache.flush
     end
-    
+
     def generate_key(parts = [])
       Digest::SHA2.hexdigest(parts.dup.append(domain).join).prepend('refcache::')
     end
@@ -43,16 +44,18 @@ module CollectionSpace
     def get(type, subtype, value)
       key = generate_key([type, subtype, value])
       cached_value = @cache.get(key)
-      raise NotFoundError if @error_if_not_found && !cached_value
+      raise(NotFoundError) if @error_if_not_found && !cached_value
 
       cached_value
     end
 
     # cache.put('placeauthorities', 'place', 'The Moon', $refname)
+    # rubocop:disable Metrics/ParameterLists
     def put(type, subtype, value, refname)
       key = generate_key([type, subtype, value])
       @cache.put(key, refname, lifetime: @lifetime)
     end
+    # rubocop:enable Metrics/ParameterLists
 
     def remove(type, subtype, value)
       key = generate_key([type, subtype, value])

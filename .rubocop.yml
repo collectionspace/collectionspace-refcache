@@ -1,15 +1,5 @@
-AllCops:
-  Exclude:
-    - node_modules/**/*
-    - db/**
-    - db/migrate/**
-    - bin/**
-    - vendor/**/*
-
-Metrics/BlockLength:
-  ExcludedMethods:
-    - 'context'
-    - 'describe'
-
-Style/Documentation:
-  Enabled: false
+inherit_from:
+  - https://raw.githubusercontent.com/kspurgin/code-quality/main/configurations/rubocop/ruby.yml
+  - https://raw.githubusercontent.com/bkuhlmann/code_quality/main/configurations/rubocop/rake.yml
+  - https://raw.githubusercontent.com/bkuhlmann/code_quality/main/configurations/rubocop/performance.yml
+  - https://raw.githubusercontent.com/kspurgin/code-quality/main/configurations/rubocop/rspec.yml

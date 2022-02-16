@@ -3,22 +3,23 @@
 require 'mock_redis'
 
 RSpec.describe CollectionSpace::RefCache do
-  let(:base_config){ { domain: 'core.collectionspace.org' } }
+  let(:base_config){ {domain: 'core.collectionspace.org'} }
   let(:add_config){ {} }
   let(:config){ base_config.merge(add_config) }
-  let(:cache) { CollectionSpace::RefCache.new(config: config) }
-  
+  let(:cache){ described_class.new(config: config) }
+
   describe '#initialize' do
     context 'with valid arguments' do
       it 'can be created' do
-        expect { cache }.not_to raise_error
+        expect{ cache }.not_to(raise_error)
       end
     end
 
     context 'without a domain' do
-      let(:config) { {} }
+      let(:config){ {} }
+
       it 'cannot be created' do
-        expect { cache }.to raise_error(KeyError)
+        expect{ cache }.to raise_error(KeyError)
       end
     end
   end
@@ -38,7 +39,7 @@ RSpec.describe CollectionSpace::RefCache do
 
     describe '#clean' do
       let(:add_config){ {lifetime: 0.2} }
-      
+
       it 'removes expired keys from cache' do
         populate_cache(cache)
         sleep(1)
@@ -70,7 +71,7 @@ RSpec.describe CollectionSpace::RefCache do
           expect(cache.get('a', 'b', 'c')).to eq('d')
         end
       end
-      
+
       context 'when key is not cached' do
         context 'with @error_if_not_found = false' do
           it 'returns nil' do
@@ -79,10 +80,11 @@ RSpec.describe CollectionSpace::RefCache do
         end
 
         context 'with @error_if_not_found = true' do
-          let(:add_config){ { error_if_not_found: true } }
+          let(:add_config){ {error_if_not_found: true} }
+          let(:result){ cache.get('a', 'b', 'c') }
 
           it 'raises NotFoundError' do
-            expect{ cache.get('a', 'b', 'c') }.to raise_error(CollectionSpace::RefCache::NotFoundError)
+            expect{ result }.to raise_error(CollectionSpace::RefCache::NotFoundError)
           end
         end
       end
@@ -113,15 +115,15 @@ RSpec.describe CollectionSpace::RefCache do
   end
 
   context 'when redis backend' do
-    before(:each) do
+    before do
       redis = MockRedis.new
       allow(Redis).to receive(:new).and_return(redis)
     end
-    
+
     let(:redis_config){ {redis: 'redis://localhost:6379/1'} }
     let(:add_config){ {} }
     let(:config){ base_config.merge(redis_config).merge(add_config) }
-    
+
     describe '#initialize' do
       it 'returns Redis cache' do
         c = cache.instance_variable_get(:@cache)
@@ -131,7 +133,7 @@ RSpec.describe CollectionSpace::RefCache do
 
     describe '#clean' do
       let(:add_config){ {lifetime: 0.2} }
-      
+
       it 'removes expired keys from cache' do
         populate_cache(cache)
         sleep(1)
@@ -162,7 +164,7 @@ RSpec.describe CollectionSpace::RefCache do
           expect(cache.get('a', 'b', 'c')).to eq('d')
         end
       end
-      
+
       context 'when key is not cached' do
         context 'with @error_if_not_found = false' do
           it 'returns nil' do
@@ -171,10 +173,11 @@ RSpec.describe CollectionSpace::RefCache do
         end
 
         context 'with @error_if_not_found = true' do
-          let(:add_config){ { error_if_not_found: true } }
+          let(:add_config){ {error_if_not_found: true} }
+          let(:result){ cache.get('a', 'b', 'c') }
 
           it 'raises NotFoundError' do
-            expect{ cache.get('a', 'b', 'c') }.to raise_error(CollectionSpace::RefCache::NotFoundError)
+            expect{ result }.to raise_error(CollectionSpace::RefCache::NotFoundError)
           end
         end
       end
@@ -203,25 +206,4 @@ RSpec.describe CollectionSpace::RefCache do
       end
     end
   end
-  
-
-  # describe '#get' do
-  #   context 'when a value is not present in the cache' do
-  #     let(:parts) { ['placeauthorities', 'place', 'Dark side of the Moon'] }
-
-  #     it 'returns nil' do
-  #       expect(cache.get(*parts)).to be_nil
-  #     end
-  #   end
-
-  #   context 'when a value is present in the cache' do
-  #     let(:insert_parts) { ['placeauthorities', 'place', 'The Moon', '$refname'] }
-  #     let(:lookup_parts) { ['placeauthorities', 'place', 'The Moon'] }
-
-  #     it 'returns the refname' do
-  #       cache.put(*insert_parts)
-  #       expect(cache.get(*lookup_parts)).to eq(insert_parts.last)
-  #     end
-  #   end
-  # end
 end

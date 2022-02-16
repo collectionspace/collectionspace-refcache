@@ -8,7 +8,7 @@ module CollectionSpace
       class Redis
         def initialize(url)
           # https://devcenter.heroku.com/articles/heroku-redis#connecting-in-rails
-          @c = ::Redis.new(url: url, ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE })
+          @c = ::Redis.new(url: url, ssl_params: {verify_mode: OpenSSL::SSL::VERIFY_NONE})
         end
 
         def clean
@@ -17,7 +17,9 @@ module CollectionSpace
         end
 
         def connected?
-          @c.ping rescue false
+          @c.ping
+        rescue StandardError
+          false
         end
 
         def exists?(key)
@@ -27,7 +29,7 @@ module CollectionSpace
         def flush
           @c.flushdb
         end
-        
+
         def get(key)
           @c.get(key)
         end
