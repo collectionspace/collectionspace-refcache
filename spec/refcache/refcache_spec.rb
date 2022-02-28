@@ -206,4 +206,64 @@ RSpec.describe CollectionSpace::RefCache do
       end
     end
   end
+
+  describe 'put, get and remove object' do
+    it 'manipulates entries for objects in cache as expected', :aggregate_failures do
+      expect(cache.size).to eq(0)
+      cache.put_object('foo', 'bar')
+      expect(cache.size).to eq(1)
+      expect(cache.object_exists?('foo')).to be true
+      expect(cache.get_object('foo')).to eq('bar')
+      cache.remove_object('foo')
+      expect(cache.size).to eq(0)
+    end
+  end
+
+  describe 'put, get and remove procedure' do
+    it 'manipulates entries for procedures in cache as expected', :aggregate_failures do
+      expect(cache.size).to eq(0)
+      cache.put_procedure('foo', 'bar', 'baz')
+      expect(cache.size).to eq(1)
+      expect(cache.procedure_exists?('foo', 'bar')).to be true
+      expect(cache.get_procedure('foo', 'bar')).to eq('baz')
+      cache.remove_procedure('foo', 'bar')
+      expect(cache.size).to eq(0)
+    end
+  end
+
+  describe 'put, get and remove auth term' do
+    it 'manipulates entries for authority terms in cache as expected', :aggregate_failures do
+      expect(cache.size).to eq(0)
+      cache.put_auth_term('foo', 'bar', 'bam', 'baz')
+      expect(cache.size).to eq(1)
+      expect(cache.auth_term_exists?('foo', 'bar', 'bam')).to be true
+      expect(cache.get_auth_term('foo', 'bar', 'bam')).to eq('baz')
+      cache.remove_auth_term('foo', 'bar', 'bam')
+      expect(cache.size).to eq(0)
+    end
+  end
+
+  describe 'put, get and remove relation' do
+    it 'manipulates entries for relations in cache as expected', :aggregate_failures do
+      expect(cache.size).to eq(0)
+      cache.put_relation('foo', 'bar', 'bam', 'baz')
+      expect(cache.size).to eq(1)
+      expect(cache.relation_exists?('foo', 'bar', 'bam')).to be true
+      expect(cache.get_relation('foo', 'bar', 'bam')).to eq('baz')
+      cache.remove_relation('foo', 'bar', 'bam')
+      expect(cache.size).to eq(0)
+    end
+  end
+
+  describe 'put, get and remove vocab term' do
+    it 'manipulates entries for vocabulary terms in cache as expected', :aggregate_failures do
+      expect(cache.size).to eq(0)
+      cache.put_vocab_term('foo', 'bar', 'baz')
+      expect(cache.size).to eq(1)
+      expect(cache.vocab_term_exists?('foo', 'bar')).to be true
+      expect(cache.get_vocab_term('foo', 'bar')).to eq('baz')
+      cache.remove_vocab_term('foo', 'bar')
+      expect(cache.size).to eq(0)
+    end
+  end
 end
