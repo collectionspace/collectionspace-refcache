@@ -5,6 +5,8 @@
 /pkg/
 /spec/reports/
 /tmp/
+.rubocop-http*
+.ruby-version
 
 # rspec failure tracking
 .rspec_status
