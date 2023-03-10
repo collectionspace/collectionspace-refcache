@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'zache'
+require "zache"
 
 module CollectionSpace
   class RefCache
@@ -11,11 +11,11 @@ module CollectionSpace
         end
 
         def clean
-          @c.remove_by{ |key| @c.expired?(key) }
+          @c.remove_by { |key| @c.expired?(key) }
         end
 
         def connected?
-          'PONG' # cute, matches redis response
+          "PONG" # cute, matches redis response
         end
 
         def exists?(key)
@@ -28,7 +28,7 @@ module CollectionSpace
 
         def get(key)
           @c.get(key)
-        rescue StandardError
+        rescue
           nil
         end
 
