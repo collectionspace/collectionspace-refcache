@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description = "A caching system for CollectionSpace refnames."
   spec.homepage = "https://github.org/collectionspace/collectionspace-refcache"
   spec.license = "MIT"
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.7.4")
+  spec.required_ruby_version = ">= 2.7.4"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
