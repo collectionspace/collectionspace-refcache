@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'redis'
+require "redis"
 
 module CollectionSpace
   class RefCache
@@ -18,7 +18,7 @@ module CollectionSpace
 
         def connected?
           @c.ping
-        rescue StandardError
+        rescue
           false
         end
 

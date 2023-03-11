@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'digest'
+require "digest"
 
 module CollectionSpace
   class RefCache
@@ -19,7 +19,7 @@ module CollectionSpace
     #####
     # General cache operations
     #####
-    
+
     # deletes expired keys (run using cron etc.)
     def clean
       @cache.clean
@@ -70,7 +70,7 @@ module CollectionSpace
     def put_object(id, to_cache)
       put_generic(object_key(id), to_cache)
     end
-    
+
     def get_object(id)
       get_generic(object_key(id))
     end
@@ -183,7 +183,7 @@ module CollectionSpace
     end
 
     def generic_exists?(key)
-      @cache.exists?(key)      
+      @cache.exists?(key)
     end
 
     def backend(connection)
@@ -191,11 +191,11 @@ module CollectionSpace
     end
 
     def generate_key(parts = [])
-      Digest::SHA2.hexdigest(parts.dup.append(domain).join).prepend('refcache::')
+      Digest::SHA2.hexdigest(parts.dup.append(domain).join).prepend("refcache::")
     end
 
     def object_key(id)
-      generate_key(['collectionobjects', id])
+      generate_key(["collectionobjects", id])
     end
 
     def procedure_key(type, id)
@@ -211,7 +211,7 @@ module CollectionSpace
     end
 
     def vocab_term_key(vocab, term)
-      generate_key(['vocabularies', vocab, term])
+      generate_key(["vocabularies", vocab, term])
     end
   end
 end

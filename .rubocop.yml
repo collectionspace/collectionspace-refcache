@@ -1,5 +1,4 @@
-inherit_from:
-  - https://raw.githubusercontent.com/kspurgin/code-quality/main/configurations/rubocop/ruby.yml
-  - https://raw.githubusercontent.com/bkuhlmann/code_quality/main/configurations/rubocop/rake.yml
-  - https://raw.githubusercontent.com/bkuhlmann/code_quality/main/configurations/rubocop/performance.yml
-  - https://raw.githubusercontent.com/kspurgin/code-quality/main/configurations/rubocop/rspec.yml
+require: standard
+
+inherit_gem:
+  standard: config/base.yml
