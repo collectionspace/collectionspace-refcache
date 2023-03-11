@@ -6,3 +6,7 @@ require "rspec/core/rake_task"
 RSpec::Core::RakeTask.new(:spec)
 
 task default: :spec
+
+task :version do
+  puts CollectionSpace::RefCache::VERSION
+end
