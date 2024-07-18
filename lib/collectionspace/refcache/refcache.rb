@@ -10,7 +10,7 @@ module CollectionSpace
 
     def initialize(config: {})
       @config = config
-      @cache = backend(config.fetch(:redis, nil))
+      @cache = config.fetch(:backend)
       @domain = config.fetch(:domain)
       @error_if_not_found = config.fetch(:error_if_not_found, false)
       @lifetime = config.fetch(:lifetime, 5 * 60)
@@ -184,10 +184,6 @@ module CollectionSpace
 
     def generic_exists?(key)
       @cache.exists?(key)
-    end
-
-    def backend(connection)
-      connection ? Backend::Redis.new(connection) : Backend::Zache.new
     end
 
     def generate_key(parts = [])
