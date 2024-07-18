@@ -4,7 +4,7 @@ require "active_support"
 require "mock_redis"
 
 RSpec.describe CollectionSpace::RefCache do
-  let(:base_config) { { backend: CollectionSpace::RefCache::Backend::Zache.new, domain: "core.collectionspace.org" } }
+  let(:base_config) { {backend: CollectionSpace::RefCache::Backend::Zache.new, domain: "core.collectionspace.org"} }
   let(:add_config) { {} }
   let(:config) { base_config.merge(add_config) }
   let(:cache) { described_class.new(config: config) }
@@ -39,7 +39,7 @@ RSpec.describe CollectionSpace::RefCache do
     end
 
     describe "#clean" do
-      let(:add_config) { { lifetime: 0.2 } }
+      let(:add_config) { {lifetime: 0.2} }
 
       it "removes expired keys from cache" do
         populate_cache(cache)
@@ -81,7 +81,7 @@ RSpec.describe CollectionSpace::RefCache do
         end
 
         context "with @error_if_not_found = true" do
-          let(:add_config) { { error_if_not_found: true } }
+          let(:add_config) { {error_if_not_found: true} }
           let(:result) { cache.get("a", "b", "c") }
 
           it "raises NotFoundError" do
@@ -121,7 +121,7 @@ RSpec.describe CollectionSpace::RefCache do
       allow(Redis).to receive(:new).and_return(redis)
     end
 
-    let(:redis_config) { { backend: CollectionSpace::RefCache::Backend::Redis.new("redis://localhost:6379/1") } }
+    let(:redis_config) { {backend: CollectionSpace::RefCache::Backend::Redis.new("redis://localhost:6379/1")} }
     let(:add_config) { {} }
     let(:config) { base_config.merge(redis_config).merge(add_config) }
 
@@ -133,7 +133,7 @@ RSpec.describe CollectionSpace::RefCache do
     end
 
     describe "#clean" do
-      let(:add_config) { { lifetime: 0.2 } }
+      let(:add_config) { {lifetime: 0.2} }
 
       it "removes expired keys from cache" do
         populate_cache(cache)
@@ -174,7 +174,7 @@ RSpec.describe CollectionSpace::RefCache do
         end
 
         context "with @error_if_not_found = true" do
-          let(:add_config) { { error_if_not_found: true } }
+          let(:add_config) { {error_if_not_found: true} }
           let(:result) { cache.get("a", "b", "c") }
 
           it "raises NotFoundError" do
@@ -213,7 +213,7 @@ RSpec.describe CollectionSpace::RefCache do
       @rails_cache = ActiveSupport::Cache::MemoryStore.new
     end
 
-    let(:rails_config) { { backend: CollectionSpace::RefCache::Backend::Rails.new(@rails_cache) } }
+    let(:rails_config) { {backend: CollectionSpace::RefCache::Backend::Rails.new(@rails_cache)} }
     let(:add_config) { {} }
     let(:config) { base_config.merge(rails_config).merge(add_config) }
 
@@ -225,7 +225,7 @@ RSpec.describe CollectionSpace::RefCache do
     end
 
     describe "#clean" do
-      let(:add_config) { { lifetime: 0.2 } }
+      let(:add_config) { {lifetime: 0.2} }
 
       it "removes expired keys from cache" do
         populate_cache(cache)
@@ -266,7 +266,7 @@ RSpec.describe CollectionSpace::RefCache do
         end
 
         context "with @error_if_not_found = true" do
-          let(:add_config) { { error_if_not_found: true } }
+          let(:add_config) { {error_if_not_found: true} }
           let(:result) { cache.get("a", "b", "c") }
 
           it "raises NotFoundError" do
