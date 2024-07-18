@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative "backend/rails"
 require_relative "backend/redis"
 require_relative "backend/zache"
 

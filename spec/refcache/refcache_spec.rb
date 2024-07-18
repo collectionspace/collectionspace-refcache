@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "active_support"
 require "mock_redis"
 
 RSpec.describe CollectionSpace::RefCache do
@@ -203,6 +204,91 @@ RSpec.describe CollectionSpace::RefCache do
         expect(cache.exists?("a", "b", "c")).to be false
         cache.remove("a", "b", "c")
         expect(cache.size).to eq(2)
+      end
+    end
+  end
+
+  context "when rails backend" do
+    before do
+      @rails_cache = ActiveSupport::Cache::MemoryStore.new
+    end
+
+    let(:rails_config) { { backend: CollectionSpace::RefCache::Backend::Rails.new(@rails_cache) } }
+    let(:add_config) { {} }
+    let(:config) { base_config.merge(rails_config).merge(add_config) }
+
+    describe "#initialize" do
+      it "returns Rails cache" do
+        c = cache.instance_variable_get(:@cache)
+        expect(c).to be_a(CollectionSpace::RefCache::Backend::Rails)
+      end
+    end
+
+    describe "#clean" do
+      let(:add_config) { { lifetime: 0.2 } }
+
+      it "removes expired keys from cache" do
+        populate_cache(cache)
+        sleep(1)
+        expect(cache.exists?("a", "b", "c")).to be false
+      end
+    end
+
+    describe "#exists?" do
+      it "returns as expected", :aggregate_failures do
+        expect(cache.exists?("a", "b", "c")).to be false
+        populate_cache(cache)
+        expect(cache.exists?("a", "b", "c")).to be true
+      end
+    end
+
+    describe "#flush" do
+      it "clears all keys as expected" do
+        populate_cache(cache)
+        cache.flush
+        expect(cache.exists?("a", "b", "c")).to be false
+      end
+    end
+
+    describe "#get" do
+      context "when key is cached" do
+        it "returns cached value" do
+          populate_cache(cache)
+          expect(cache.get("a", "b", "c")).to eq("d")
+        end
+      end
+
+      context "when key is not cached" do
+        context "with @error_if_not_found = false" do
+          it "returns nil" do
+            expect(cache.get("a", "b", "c")).to be nil
+          end
+        end
+
+        context "with @error_if_not_found = true" do
+          let(:add_config) { { error_if_not_found: true } }
+          let(:result) { cache.get("a", "b", "c") }
+
+          it "raises NotFoundError" do
+            expect { result }.to raise_error(CollectionSpace::RefCache::NotFoundError)
+          end
+        end
+      end
+    end
+
+    describe "#put" do
+      it "adds keys as expected", :aggregate_failures do
+        cache.put("w", "x", "y", "z")
+        expect(cache.exists?("w", "x", "y")).to be true
+      end
+    end
+
+    describe "#remove" do
+      it "removes given key as expected", :aggregate_failures do
+        populate_cache(cache)
+        expect(cache.exists?("a", "b", "c")).to be true
+        cache.remove("a", "b", "c")
+        expect(cache.exists?("a", "b", "c")).to be false
       end
     end
   end

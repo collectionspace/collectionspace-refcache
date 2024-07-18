@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "zache"
-
 module CollectionSpace
   class RefCache
     module Backend
