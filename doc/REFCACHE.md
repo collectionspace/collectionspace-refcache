@@ -3,12 +3,20 @@
 Setup and usage:
 
 ```ruby
+# use an in memory cache
+backend = CollectionSpace::RefCache::Backend::Zache.new
+
+# other backends
+# backend = CollectionSpace::RefCache::Backend::Redis.new('redis://localhost:6379/1')
+# backend = CollectionSpace::RefCache::Backend::Rails.new(Rails.cache)
+
 cache_config = {
-  # redis: 'redis://localhost:6379/1', # optional, if omitted use in memory cache (Zache)
+  backend: backend,
   domain: 'core.collectionspace.org',
   error_if_not_found: false, # raise error if key cannot be retrieved (default false)
   lifetime: 5 * 60, # cache expiry in seconds (default is 5 minutes)
 }
+
 cache = CollectionSpace::RefCache.new(config: cache_config)
 cache.get('placeauthorities', 'place', 'Death Valley') # $refname or error / nil if not found
 cache.exists?('placeauthorities', 'place', 'Death Valley') # check for key
