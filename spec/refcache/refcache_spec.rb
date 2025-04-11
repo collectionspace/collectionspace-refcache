@@ -2,7 +2,7 @@
 
 require "mock_redis"
 
-RSpec.describe CollectionSpace::RefCache do
+RSpec.describe CollectionSpace::Refcache do
   let(:base_config) { {domain: "core.collectionspace.org"} }
   let(:add_config) { {} }
   let(:config) { base_config.merge(add_config) }
@@ -24,16 +24,16 @@ RSpec.describe CollectionSpace::RefCache do
     end
   end
 
-  # The backends are tested in the context of RefCache's methods because:
+  # The backends are tested in the context of Refcache's methods because:
   #   - The backend methods are not available in the interface to be called directly (without using
   #     dirty Ruby tricks anyway)
-  #   - The RefCache methods are the interface to the backends and it is important that they
+  #   - The Refcache methods are the interface to the backends and it is important that they
   #     work as expected
   context "when zache backend" do
     describe "#initialize" do
       it "returns Zache cache" do
         c = cache.instance_variable_get(:@cache)
-        expect(c).to be_a(CollectionSpace::RefCache::Backend::Zache)
+        expect(c).to be_a(CollectionSpace::Refcache::Backend::Zache)
       end
     end
 
@@ -84,7 +84,7 @@ RSpec.describe CollectionSpace::RefCache do
           let(:result) { cache.get("a", "b", "c") }
 
           it "raises NotFoundError" do
-            expect { result }.to raise_error(CollectionSpace::RefCache::NotFoundError)
+            expect { result }.to raise_error(CollectionSpace::Refcache::NotFoundError)
           end
         end
       end
@@ -127,7 +127,7 @@ RSpec.describe CollectionSpace::RefCache do
     describe "#initialize" do
       it "returns Redis cache" do
         c = cache.instance_variable_get(:@cache)
-        expect(c).to be_a(CollectionSpace::RefCache::Backend::Redis)
+        expect(c).to be_a(CollectionSpace::Refcache::Backend::Redis)
       end
     end
 
@@ -177,7 +177,7 @@ RSpec.describe CollectionSpace::RefCache do
           let(:result) { cache.get("a", "b", "c") }
 
           it "raises NotFoundError" do
-            expect { result }.to raise_error(CollectionSpace::RefCache::NotFoundError)
+            expect { result }.to raise_error(CollectionSpace::Refcache::NotFoundError)
           end
         end
       end

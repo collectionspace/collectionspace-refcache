@@ -1,4 +1,4 @@
-# CollectionSpace RefCache
+# CollectionSpace Refcache
 
 A caching system for CollectionSpace refnames.
 

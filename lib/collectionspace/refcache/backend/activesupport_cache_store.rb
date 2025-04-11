@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module CollectionSpace
-  class RefCache
+  class Refcache
     module Backend
       class ActivesupportCacheStore
         # @param store [ActiveSupport::Cache::Store] or other store conforming

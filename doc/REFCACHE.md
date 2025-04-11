@@ -1,4 +1,4 @@
-# RefCache
+# Refcache
 
 Setup and usage:
 
@@ -12,7 +12,7 @@ cache_config = {
   error_if_not_found: false, # raise error if key cannot be retrieved (default false)
   lifetime: 5 * 60, # cache expiry in seconds (default is 5 minutes)
 }
-cache = CollectionSpace::RefCache.new(config: cache_config)
+cache = CollectionSpace::Refcache.new(config: cache_config)
 cache.get('placeauthorities', 'place', 'Death Valley') # $refname or error / nil if not found
 cache.exists?('placeauthorities', 'place', 'Death Valley') # check for key
 
