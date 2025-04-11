@@ -10,7 +10,7 @@ module CollectionSpace
 
     def initialize(config: {})
       @config = config
-      @cache = backend(config.fetch(:redis, nil))
+      @cache = set_backend(config)
       @domain = config.fetch(:domain)
       @error_if_not_found = config.fetch(:error_if_not_found, false)
       @lifetime = config.fetch(:lifetime, 5 * 60)
@@ -190,8 +190,14 @@ module CollectionSpace
       @cache.exists?(key)
     end
 
-    def backend(connection)
-      connection ? Backend::Redis.new(connection) : Backend::Zache.new
+    def set_backend(config)
+      if config.key?(:redis)
+        Backend::Redis.new(config[:redis])
+      elsif config.key?(:store)
+        Backend::ActivesupportCacheStore.new(config[:store])
+      else
+        Backend::Zache.new
+      end
     end
 
     def generate_key(parts = [])
