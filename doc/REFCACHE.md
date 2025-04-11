@@ -3,8 +3,11 @@
 Setup and usage:
 
 ```ruby
+# In-memory cache (Zache) will be used as backend if neither :redis nor :store are included
+#   in config
 cache_config = {
-  # redis: 'redis://localhost:6379/1', # optional, if omitted use in memory cache (Zache)
+  # redis: 'redis://localhost:6379/1', # optional
+  # store: ActiveSupport::Cache::Store or SolidCache::Store object, # optional
   domain: 'core.collectionspace.org',
   error_if_not_found: false, # raise error if key cannot be retrieved (default false)
   lifetime: 5 * 60, # cache expiry in seconds (default is 5 minutes)
