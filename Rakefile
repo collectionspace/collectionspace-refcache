@@ -8,5 +8,5 @@ RSpec::Core::RakeTask.new(:spec)
 task default: :spec
 
 task :version do
-  puts CollectionSpace::RefCache::VERSION
+  puts CollectionSpace::Refcache::VERSION
 end

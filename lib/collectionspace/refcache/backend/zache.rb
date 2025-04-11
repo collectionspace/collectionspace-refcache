@@ -3,7 +3,7 @@
 require "zache"
 
 module CollectionSpace
-  class RefCache
+  class Refcache
     module Backend
       class Zache
         def initialize

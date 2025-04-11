@@ -5,7 +5,7 @@ require_relative "backend/redis"
 require_relative "backend/zache"
 
 module CollectionSpace
-  class RefCache
+  class Refcache
     module Backend
     end
   end

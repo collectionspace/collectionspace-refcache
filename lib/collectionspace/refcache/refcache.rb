@@ -3,7 +3,7 @@
 require "digest"
 
 module CollectionSpace
-  class RefCache
+  class Refcache
     class NotFoundError < StandardError; end
 
     attr_reader :config, :domain

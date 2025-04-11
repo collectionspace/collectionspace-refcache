@@ -4,11 +4,11 @@ require_relative "lib/collectionspace/refcache/version"
 
 Gem::Specification.new do |spec|
   spec.name = "collectionspace-refcache"
-  spec.version = CollectionSpace::RefCache::VERSION
+  spec.version = CollectionSpace::Refcache::VERSION
   spec.authors = ["Mark Cooper"]
   spec.email = ["mark.c.cooper@outlook.com"]
 
-  spec.summary = "CollectionSpace RefCache."
+  spec.summary = "CollectionSpace Refcache."
   spec.description = "A caching system for CollectionSpace refnames."
   spec.homepage = "https://github.org/collectionspace/collectionspace-refcache"
   spec.license = "MIT"
