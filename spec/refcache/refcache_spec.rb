@@ -217,6 +217,19 @@ RSpec.describe CollectionSpace::RefCache do
       cache.remove_object("foo")
       expect(cache.size).to eq(0)
     end
+
+    context "when including value_type" do
+      it "manipulates entries for objects in cache as expected", :aggregate_failures do
+        expect(cache.size).to eq(0)
+        cache.put_object("foo", "bar", "csid")
+        expect(cache.size).to eq(1)
+        expect(cache.object_exists?("foo", "csid")).to be true
+        expect(cache.object_exists?("foo", "refname")).to be false
+        expect(cache.get_object("foo", "csid")).to eq("bar")
+        cache.remove_object("foo", "csid")
+        expect(cache.size).to eq(0)
+      end
+    end
   end
 
   describe "put, get and remove procedure" do
@@ -228,6 +241,19 @@ RSpec.describe CollectionSpace::RefCache do
       expect(cache.get_procedure("foo", "bar")).to eq("baz")
       cache.remove_procedure("foo", "bar")
       expect(cache.size).to eq(0)
+    end
+
+    context "when including value_type" do
+      it "manipulates entries for procedures in cache as expected", :aggregate_failures do
+        expect(cache.size).to eq(0)
+        cache.put_procedure("foo", "bar", "baz", "refname")
+        expect(cache.size).to eq(1)
+        expect(cache.procedure_exists?("foo", "bar", "refname")).to be true
+        expect(cache.procedure_exists?("foo", "bar", "csid")).to be false
+        expect(cache.get_procedure("foo", "bar", "refname")).to eq("baz")
+        cache.remove_procedure("foo", "bar", "refname")
+        expect(cache.size).to eq(0)
+      end
     end
   end
 
@@ -241,6 +267,19 @@ RSpec.describe CollectionSpace::RefCache do
       cache.remove_auth_term("foo", "bar", "bam")
       expect(cache.size).to eq(0)
     end
+
+    context "when including value_type" do
+      it "manipulates entries for authority terms in cache as expected", :aggregate_failures do
+        expect(cache.size).to eq(0)
+        cache.put_auth_term("foo", "bar", "bam", "baz", "uri")
+        expect(cache.size).to eq(1)
+        expect(cache.auth_term_exists?("foo", "bar", "bam", "uri")).to be true
+        expect(cache.auth_term_exists?("foo", "bar", "bam", "csid")).to be false
+        expect(cache.get_auth_term("foo", "bar", "bam", "uri")).to eq("baz")
+        cache.remove_auth_term("foo", "bar", "bam", "uri")
+        expect(cache.size).to eq(0)
+      end
+    end
   end
 
   describe "put, get and remove relation" do
@@ -253,6 +292,19 @@ RSpec.describe CollectionSpace::RefCache do
       cache.remove_relation("foo", "bar", "bam")
       expect(cache.size).to eq(0)
     end
+
+    context "when including value_type" do
+      it "manipulates entries for relations in cache as expected", :aggregate_failures do
+        expect(cache.size).to eq(0)
+        cache.put_relation("foo", "bar", "bam", "baz", "csid")
+        expect(cache.size).to eq(1)
+        expect(cache.relation_exists?("foo", "bar", "bam", "csid")).to be true
+        expect(cache.relation_exists?("foo", "bar", "bam", "refname")).to be false
+        expect(cache.get_relation("foo", "bar", "bam", "csid")).to eq("baz")
+        cache.remove_relation("foo", "bar", "bam", "csid")
+        expect(cache.size).to eq(0)
+      end
+    end
   end
 
   describe "put, get and remove vocab term" do
@@ -264,6 +316,19 @@ RSpec.describe CollectionSpace::RefCache do
       expect(cache.get_vocab_term("foo", "bar")).to eq("baz")
       cache.remove_vocab_term("foo", "bar")
       expect(cache.size).to eq(0)
+    end
+
+    context "when including value_type" do
+      it "manipulates entries for vocabulary terms in cache as expected", :aggregate_failures do
+        expect(cache.size).to eq(0)
+        cache.put_vocab_term("foo", "bar", "baz", "refname")
+        expect(cache.size).to eq(1)
+        expect(cache.vocab_term_exists?("foo", "bar", "refname")).to be true
+        expect(cache.vocab_term_exists?("foo", "bar", "csid")).to be false
+        expect(cache.get_vocab_term("foo", "bar", "refname")).to eq("baz")
+        cache.remove_vocab_term("foo", "bar", "refname")
+        expect(cache.size).to eq(0)
+      end
     end
   end
 end

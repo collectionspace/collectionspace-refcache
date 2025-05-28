@@ -43,126 +43,130 @@ module CollectionSpace
     #####
     # Default methods (assumes authority terms)
     # cache.exists?('placeauthorities', 'place', 'Death Valley')
-    def exists?(type, subtype, value)
-      generic_exists?(term_key(type, subtype, value))
+    def exists?(type, subtype, value, value_type = nil)
+      generic_exists?(term_key(type, subtype, value, value_type))
     end
 
     # cache.put('placeauthorities', 'place', 'The Moon', $refname)
     # rubocop:disable Metrics/ParameterLists
-    def put(type, subtype, value, to_cache)
-      put_generic(term_key(type, subtype, value), to_cache)
+    def put(type, subtype, value, to_cache, value_type = nil)
+      put_generic(term_key(type, subtype, value, value_type), to_cache)
     end
     # rubocop:enable Metrics/ParameterLists
 
     # cache.get('placeauthorities', 'place', 'The Moon')
     # cache.get('vocabularies', 'languages', 'English')
-    def get(type, subtype, value)
-      get_generic(term_key(type, subtype, value))
+    def get(type, subtype, value, value_type = nil)
+      get_generic(term_key(type, subtype, value, value_type))
     end
 
-    def remove(type, subtype, value)
-      remove_generic(term_key(type, subtype, value))
+    def remove(type, subtype, value, value_type = nil)
+      remove_generic(term_key(type, subtype, value, value_type))
     end
 
     #####
     # object caching
     #####
-    def put_object(id, to_cache)
-      put_generic(object_key(id), to_cache)
+    def put_object(id, to_cache, value_type = nil)
+      put_generic(object_key(id, value_type), to_cache)
     end
 
-    def get_object(id)
-      get_generic(object_key(id))
+    def get_object(id, value_type = nil)
+      get_generic(object_key(id, value_type))
     end
 
-    def remove_object(id)
-      remove_generic(object_key(id))
+    def remove_object(id, value_type = nil)
+      remove_generic(object_key(id, value_type))
     end
 
-    def object_exists?(id)
-      generic_exists?(object_key(id))
+    def object_exists?(id, value_type = nil)
+      generic_exists?(object_key(id, value_type))
     end
 
     #####
     # procedure caching
     #####
-    def put_procedure(type, id, to_cache)
-      put_generic(procedure_key(type, id), to_cache)
+    def put_procedure(type, id, to_cache, value_type = nil)
+      put_generic(procedure_key(type, id, value_type), to_cache)
     end
 
-    def get_procedure(type, id)
-      get_generic(procedure_key(type, id))
+    def get_procedure(type, id, value_type = nil)
+      get_generic(procedure_key(type, id, value_type))
     end
 
-    def remove_procedure(type, id)
-      remove_generic(procedure_key(type, id))
+    def remove_procedure(type, id, value_type = nil)
+      remove_generic(procedure_key(type, id, value_type))
     end
 
-    def procedure_exists?(type, id)
-      generic_exists?(procedure_key(type, id))
+    def procedure_exists?(type, id, value_type = nil)
+      generic_exists?(procedure_key(type, id, value_type))
     end
 
     #####
     # authority term caching
     #####
-    def auth_term_exists?(type, subtype, term)
-      generic_exists?(term_key(type, subtype, term))
+    def auth_term_exists?(type, subtype, term, value_type = nil)
+      generic_exists?(term_key(type, subtype, term, value_type))
     end
 
     # rubocop:disable Metrics/ParameterLists
-    def put_auth_term(type, subtype, term, to_cache)
-      put_generic(term_key(type, subtype, term), to_cache)
+    def put_auth_term(type, subtype, term, to_cache, value_type = nil)
+      put_generic(term_key(type, subtype, term, value_type), to_cache)
     end
     # rubocop:enable Metrics/ParameterLists
 
-    def get_auth_term(type, subtype, term)
-      get_generic(term_key(type, subtype, term))
+    def get_auth_term(type, subtype, term, value_type = nil)
+      get_generic(term_key(type, subtype, term, value_type))
     end
 
-    def remove_auth_term(type, subtype, term)
-      remove_generic(term_key(type, subtype, term))
+    def remove_auth_term(type, subtype, term, value_type = nil)
+      remove_generic(term_key(type, subtype, term, value_type))
     end
 
     #####
     # relation caching
     #####
-    def relation_exists?(reltype, subjectcsid, objectcsid)
-      generic_exists?(term_key(reltype, subjectcsid, objectcsid))
+    def relation_exists?(reltype, subjectcsid, objectcsid, value_type = nil)
+      generic_exists?(
+        relation_key(reltype, subjectcsid, objectcsid, value_type)
+      )
     end
 
     # rubocop:disable Metrics/ParameterLists
-    def put_relation(reltype, subjectcsid, objectcsid, to_cache)
-      put_generic(term_key(reltype, subjectcsid, objectcsid), to_cache)
+    def put_relation(reltype, subjectcsid, objectcsid, to_cache,
+      value_type = nil)
+      put_generic(relation_key(reltype, subjectcsid, objectcsid, value_type),
+        to_cache)
     end
     # rubocop:enable Metrics/ParameterLists
 
-    def get_relation(reltype, subjectcsid, objectcsid)
-      get_generic(term_key(reltype, subjectcsid, objectcsid))
+    def get_relation(reltype, subjectcsid, objectcsid, value_type = nil)
+      get_generic(relation_key(reltype, subjectcsid, objectcsid, value_type))
     end
 
-    def remove_relation(reltype, subjectcsid, objectcsid)
-      remove_generic(term_key(reltype, subjectcsid, objectcsid))
+    def remove_relation(reltype, subjectcsid, objectcsid, value_type = nil)
+      remove_generic(relation_key(reltype, subjectcsid, objectcsid, value_type))
     end
 
     #####
     # vocabulary term caching
     #####
-    def vocab_term_exists?(vocab, term)
-      generic_exists?(vocab_term_key(vocab, term))
+    def vocab_term_exists?(vocab, term, value_type = nil)
+      generic_exists?(vocab_term_key(vocab, term, value_type))
     end
 
     # rubocop:disable Metrics/ParameterLists
-    def put_vocab_term(vocab, term, to_cache)
-      put_generic(vocab_term_key(vocab, term), to_cache)
+    def put_vocab_term(vocab, term, to_cache, value_type = nil)
+      put_generic(vocab_term_key(vocab, term, value_type), to_cache)
     end
     # rubocop:enable Metrics/ParameterLists
 
-    def get_vocab_term(vocab, term)
-      get_generic(vocab_term_key(vocab, term))
+    def get_vocab_term(vocab, term, value_type = nil)
+      get_generic(vocab_term_key(vocab, term, value_type))
     end
 
-    def remove_vocab_term(vocab, term)
-      remove_generic(vocab_term_key(vocab, term))
+    def remove_vocab_term(vocab, term, value_type = nil)
+      remove_generic(vocab_term_key(vocab, term, value_type))
     end
 
     private
@@ -194,24 +198,24 @@ module CollectionSpace
       Digest::SHA2.hexdigest(parts.dup.append(domain).join).prepend("refcache::")
     end
 
-    def object_key(id)
-      generate_key(["collectionobjects", id])
+    def object_key(id, value_type = nil)
+      generate_key(["collectionobjects", id, value_type].compact)
     end
 
-    def procedure_key(type, id)
-      generate_key([type, id])
+    def procedure_key(type, id, value_type = nil)
+      generate_key([type, id, value_type].compact)
     end
 
-    def relation_key(reltype, subjectcsid, objectcsid)
-      generate_key([reltype, subjectcsid, objectcsid])
+    def relation_key(reltype, subjectcsid, objectcsid, value_type = nil)
+      generate_key([reltype, subjectcsid, objectcsid, value_type].compact)
     end
 
-    def term_key(type, subtype, term)
-      generate_key([type, subtype, term])
+    def term_key(type, subtype, term, value_type = nil)
+      generate_key([type, subtype, term, value_type].compact)
     end
 
-    def vocab_term_key(vocab, term)
-      generate_key(["vocabularies", vocab, term])
+    def vocab_term_key(vocab, term, value_type = nil)
+      generate_key(["vocabularies", vocab, term, value_type].compact)
     end
   end
 end
