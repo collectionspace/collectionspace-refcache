@@ -37,8 +37,8 @@ module CollectionSpace
         def put(key, value, lifetime: nil)
           if lifetime
             @c.write(key, value, expires_in: lifetime)
-            else
-              @c.write(key, value)
+          else
+            @c.write(key, value)
           end
         end
 
