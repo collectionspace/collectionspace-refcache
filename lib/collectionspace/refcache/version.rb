@@ -2,8 +2,8 @@
 
 module CollectionSpace
   # rubocop:disable Style/StaticClass
-  class RefCache
-    VERSION = "1.0.0"
+  class Refcache
+    VERSION = "1.0.1"
   end
   # rubocop:enable Style/StaticClass
 end

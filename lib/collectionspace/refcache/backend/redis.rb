@@ -3,7 +3,7 @@
 require "redis"
 
 module CollectionSpace
-  class RefCache
+  class Refcache
     module Backend
       class Redis
         def initialize(url)

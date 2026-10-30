@@ -4,15 +4,15 @@ require_relative "lib/collectionspace/refcache/version"
 
 Gem::Specification.new do |spec|
   spec.name = "collectionspace-refcache"
-  spec.version = CollectionSpace::RefCache::VERSION
+  spec.version = CollectionSpace::Refcache::VERSION
   spec.authors = ["Mark Cooper"]
   spec.email = ["mark.c.cooper@outlook.com"]
 
-  spec.summary = "CollectionSpace RefCache."
+  spec.summary = "CollectionSpace Refcache."
   spec.description = "A caching system for CollectionSpace refnames."
   spec.homepage = "https://github.org/collectionspace/collectionspace-refcache"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 2.7.4"
+  spec.required_ruby_version = ">= 4.0.5"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
@@ -32,6 +32,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency("rake", "~> 13.0")
   spec.add_development_dependency("rspec")
   spec.add_development_dependency("rubocop")
-  spec.add_development_dependency("simplecov", "~> 0.21")
+  spec.add_development_dependency("simplecov")
   spec.add_development_dependency("standard")
 end
